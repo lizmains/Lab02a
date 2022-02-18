@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.lab02a_emains.controller.NumbersController;
 
-public class AddNumbersServlet extends HttpServlet {
+public class MultiplyNumbersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -39,12 +39,10 @@ public class AddNumbersServlet extends HttpServlet {
 		try {
 			Double first = getDoubleFromParameter(req.getParameter("first"));
 			Double second = getDoubleFromParameter(req.getParameter("second"));
-			//ADDED
-			Double third = getDoubleFromParameter(req.getParameter("third"));
 
 			// check for errors in the form data before using is in a calculation
-			if (first == null || second == null || third == null) {
-				errorMessage = "Please specify three numbers";
+			if (first == null || second == null) {
+				errorMessage = "Please specify two numbers";
 			}
 			// otherwise, data is good, do the calculation
 			// must create the controller each time, since it doesn't persist between POSTs
@@ -52,7 +50,7 @@ public class AddNumbersServlet extends HttpServlet {
 			// thus, always call a controller method to operate on the data
 			else {
 				NumbersController controller = new NumbersController();
-				result = controller.add(first, second, third);
+				result = controller.multiply(first, second);
 			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid double";
@@ -65,7 +63,6 @@ public class AddNumbersServlet extends HttpServlet {
 		// and forth, it's a good idea
 		req.setAttribute("first", req.getParameter("first"));
 		req.setAttribute("second", req.getParameter("second"));
-		req.setAttribute("third", req.getParameter("third"));
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response

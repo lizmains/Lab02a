@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.lab02a_emains.controller.NumbersController;
 
-public class AddNumbersAjaxServlet extends HttpServlet {
+public class MultiplyNumbersAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -28,18 +28,16 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 		// Get parameters
 		Double first = getDouble(req, "first");
 		Double second = getDouble(req, "second");
-		//ADDED
-		Double third = getDouble(req, "third");
 		
 		// Check whether parameters are valid
-		if (first == null || second == null || third == null) {
+		if (first == null || second == null) {
 			badRequest("Bad parameters", resp);
 			return;
 		}
 		
 		// Use a controller to process the request
 		NumbersController controller = new NumbersController();
-		Double result = controller.add(first, second, third);
+		Double result = controller.multiply(first, second);
 		
 		// Send back a response
 		resp.setContentType("text/plain");
