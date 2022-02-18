@@ -16,17 +16,17 @@ public class MultiplyNumbersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("AddNumbers Servlet: doGet");	
+		System.out.println("MultiplyNumbers Servlet: doGet");	
 		
 		// call JSP to generate empty form
-		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/multiplyNumbers.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("AddNumbers Servlet: doPost");
+		System.out.println("MultiplyNumbers Servlet: doPost");
 		
 
 		// holds the error message text, if there is any
@@ -70,7 +70,7 @@ public class MultiplyNumbersServlet extends HttpServlet {
 		req.setAttribute("result", result);
 		
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/multiplyNumbers.jsp").forward(req, resp);
 	}
 
 	// gets double from the request with attribute named s
