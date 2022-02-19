@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.lab02a_emains.controller.NumbersController;
+import edu.ycp.cs320.lab02a_emains.model.Numbers;
 
 public class AddNumbersAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,12 +26,14 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 	}
 
 	private void doRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Numbers model = new Numbers();
 		// Get parameters
 		Double first = getDouble(req, "first");
 		Double second = getDouble(req, "second");
-		//ADDED
 		Double third = getDouble(req, "third");
-		
+		model.setFirst(first);
+		model.setSecond(second);
+		model.setThird(third);
 		// Check whether parameters are valid
 		if (first == null || second == null || third == null) {
 			badRequest("Bad parameters", resp);
@@ -39,7 +42,8 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 		
 		// Use a controller to process the request
 		NumbersController controller = new NumbersController();
-		Double result = controller.add(first, second, third);
+		controller.setModel(model);
+		Double result = controller.add();
 		
 		// Send back a response
 		resp.setContentType("text/plain");

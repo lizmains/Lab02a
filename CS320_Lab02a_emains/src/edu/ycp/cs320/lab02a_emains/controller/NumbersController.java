@@ -1,10 +1,18 @@
 package edu.ycp.cs320.lab02a_emains.controller;
 
+import edu.ycp.cs320.lab02a_emains.model.Numbers;
+
 public class NumbersController {
-	public Double add(Double first, Double second, Double third) {
-		return first + second + third;
+	private Numbers model;
+	
+	public void setModel(Numbers model) {
+		this.model = model;
 	}
-	public Double multiply(Double first, Double second) {
-		return first * second;
+
+	public Double add() {
+		return model.getFirst() + model.getSecond() + model.getThird();
+	}
+	public Double multiply() {
+		return model.getFirst() * model.getSecond();
 	}
 }

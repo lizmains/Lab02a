@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.lab02a_emains.controller.NumbersController;
+import edu.ycp.cs320.lab02a_emains.model.Numbers;
 
 public class MultiplyNumbersAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,9 +26,11 @@ public class MultiplyNumbersAjaxServlet extends HttpServlet {
 	}
 
 	private void doRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// Get parameters
+		Numbers model = new Numbers();
 		Double first = getDouble(req, "first");
 		Double second = getDouble(req, "second");
+		model.setFirst(first);
+		model.setSecond(second);
 		
 		// Check whether parameters are valid
 		if (first == null || second == null) {
@@ -37,7 +40,7 @@ public class MultiplyNumbersAjaxServlet extends HttpServlet {
 		
 		// Use a controller to process the request
 		NumbersController controller = new NumbersController();
-		Double result = controller.multiply(first, second);
+		Double result = controller.multiply();
 		
 		// Send back a response
 		resp.setContentType("text/plain");

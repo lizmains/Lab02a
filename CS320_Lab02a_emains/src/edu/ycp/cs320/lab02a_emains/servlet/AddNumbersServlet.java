@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.lab02a_emains.controller.NumbersController;
+import edu.ycp.cs320.lab02a_emains.model.Numbers;
 
 public class AddNumbersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -23,8 +25,11 @@ public class AddNumbersServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)	
 			throws ServletException, IOException {
+		Numbers model = new Numbers();
+		
+		
 		
 		System.out.println("AddNumbers Servlet: doPost");
 		
@@ -39,8 +44,13 @@ public class AddNumbersServlet extends HttpServlet {
 		try {
 			Double first = getDoubleFromParameter(req.getParameter("first"));
 			Double second = getDoubleFromParameter(req.getParameter("second"));
-			//ADDED
 			Double third = getDoubleFromParameter(req.getParameter("third"));
+			model.setFirst(first);
+			model.setSecond(second);
+			model.setThird(third);
+			System.out.println(model.getFirst());
+			System.out.println(model.getSecond());
+			System.out.println(model.getThird());
 
 			// check for errors in the form data before using is in a calculation
 			if (first == null || second == null || third == null) {
@@ -52,7 +62,9 @@ public class AddNumbersServlet extends HttpServlet {
 			// thus, always call a controller method to operate on the data
 			else {
 				NumbersController controller = new NumbersController();
-				result = controller.add(first, second, third);
+				controller.setModel(model);
+				result = controller.add();
+				model.setResult(result);
 			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid double";
@@ -67,10 +79,12 @@ public class AddNumbersServlet extends HttpServlet {
 		req.setAttribute("second", req.getParameter("second"));
 		req.setAttribute("third", req.getParameter("third"));
 		
+		req.setAttribute("numbers", model);
+		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
-		req.setAttribute("result", result);
+		req.setAttribute("result", model.getResult());
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);

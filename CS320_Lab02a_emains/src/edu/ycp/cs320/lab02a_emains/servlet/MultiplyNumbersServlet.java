@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.lab02a_emains.controller.NumbersController;
+import edu.ycp.cs320.lab02a_emains.model.Numbers;
 
 public class MultiplyNumbersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -25,6 +27,7 @@ public class MultiplyNumbersServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		Numbers model = new Numbers();
 		
 		System.out.println("MultiplyNumbers Servlet: doPost");
 		
@@ -39,6 +42,8 @@ public class MultiplyNumbersServlet extends HttpServlet {
 		try {
 			Double first = getDoubleFromParameter(req.getParameter("first"));
 			Double second = getDoubleFromParameter(req.getParameter("second"));
+			model.setFirst(first);
+			model.setSecond(second);
 
 			// check for errors in the form data before using is in a calculation
 			if (first == null || second == null) {
@@ -50,7 +55,9 @@ public class MultiplyNumbersServlet extends HttpServlet {
 			// thus, always call a controller method to operate on the data
 			else {
 				NumbersController controller = new NumbersController();
-				result = controller.multiply(first, second);
+				controller.setModel(model);
+				result = controller.multiply();
+				model.setResult(result);
 			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid double";
@@ -63,6 +70,9 @@ public class MultiplyNumbersServlet extends HttpServlet {
 		// and forth, it's a good idea
 		req.setAttribute("first", req.getParameter("first"));
 		req.setAttribute("second", req.getParameter("second"));
+		
+		req.setAttribute("numbers", model);
+
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
